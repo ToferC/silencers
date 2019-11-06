@@ -13,8 +13,10 @@ pub struct Player {
 }
 
 pub struct Board {
-    mission: Mission,
-    tiles: Vec<Tile>,
+    pub mission: Mission,
+    pub tiles: Vec<Tile>,
+    pub characters: Vec<Character>,
+
 }
 
 impl Default for Board {
@@ -22,6 +24,7 @@ impl Default for Board {
         return Board {
             mission: Mission::default(),
             tiles: Vec::new(),
+            characters: Vec::new(),
         };
     }
 }
@@ -38,26 +41,38 @@ pub struct Tile {
     cover: i32,
     exposure: i32,
     mayhem: i32,
-    pub characters: Vec<Character>,
 }
 
 pub struct Mission {
     name: String,
     description: String,
     objectives: Vec<Objective>,
-    cover: i32,
-    exposure: i32,
-    mayhem: i32,
-    pub characters: Vec<Character>,
+    home_tile: Tile,
 }
+
+impl Default for Mission {
+    fn default() -> Mission {
+        return Mission {
+            name: String::from("A Night at the Opera"),
+            description: String::from("It was a dark and stormy night"),
+            objectives: Vec::new(),
+            home_tile: Tile {
+                name: String::from("The Cathedral"),
+                description: String::from("A tall, imposing gothic cathedral"),
+                cover: 3,
+                exposure: 2,
+                mayhem: 0,
+            }
+        }
+    }
+}
+
 
 pub struct Objective {
     name: String,
     description: String,
     complete: bool,
 }
-
-
 
 pub enum Actions {
     Unleash,
@@ -90,6 +105,7 @@ pub struct Character {
     presence: i32,
     ingenuity: i32,
     power: Power,
+    location: Tile,
 }
 
 // Role separates the different kinds of Characters in Silencers
